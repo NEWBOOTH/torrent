@@ -1,72 +1,22 @@
+<%-include ('partials/header') -%> 
+  <h1>Random YTS Movies</h1>
 
-  
-
-<%-include ('partials/header') -%>
-
-
-<div class="movie-container random-container">
-    <div class="movie-slider">
-      <% if (random && Array.isArray(random) && random.length > 0) { %>
-        <% random.forEach(item => { %>
-            <div class="random-card col-sm-4 col-md-3 col-lg-2 col-xl- mb-3">
-                <a href="/<%= item.mediaType %>/<%= item.id %>?title=<%= encodeURIComponent(item.title) %>" class="random-link">
-                    <div class="car h-100">
-                      <img class="card" src="https://image.tmdb.org/t/p/w200/<%= item.backdrop_path %>" alt="Poster for <%= item.title %>">
-                       <div class="card-flags">
-                         <i class="fi fi-us"></i>
-                       </div>
-                       <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="280551"></script>
-                       <div class="card-body">
-                        <i class=""></i><h3 class="card-title"><%= item.title %></h3>
-                        </div>
-                    </div>
-                    <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="280587"></script>
-                  </a>
-            </div>
-         <% }); %>
-        <% } else { %>
-       <p>No random items found.</p>
-      <% } %>
-    </div>
-     <div class="slider-controls">
-        <button class="slider-prev"></button>
-       <button class="slider-next"></button>
-     </div>
-</div>
-
-  <h3>Editors' Pick</h3>
-      <div class="container ms2">
-        <div class="row ms-2">
-          <% combinedData.forEach(movie => { %>
-            
-            <div class="col-md-3 col-6 col-sm-4 col-lg-2">
-              <a href="/<%= movie.mediaType %>/<%= movie.id %>?title/<%= encodeURIComponent(movie.title) %>" class="lu-one">
-              <div class="cad">
-                <div class="card-body">
-                <% if (movie.background || movie.poster_path) { %>
-                  <img src="https://image.tmdb.org/t/p/w200/<%= movie.background ? movie.background : movie.poster_path %>" class="card" alt="<%= movie.title %> Poster">
-                <% } %>
-                
-                  <h3 class="card-titl"><%= movie.title %></h3>
-                </div>
-                 </a>
-               
-              </div>
-            </div>
-          <% }); %>
+  <div class="row">
+    <% movies.forEach(movie => { %>
+      <div class="col-md-4 col-lg-2">
+        <a href="/tor/<%= movie.id %>">
+        <div class="">
+          <img src="<%= movie.medium_cover_image %>" class="card" alt="<%= movie.title %>">
+          <div class="card-body">
+            <h5 class="card-title"><%= movie.title %></h5>
+            <p class="card-text">Rating: <%= movie.rating %></p>
+          </div>
         </div>
+      </a>
       </div>
-    
-     
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-    <% if (currentPage > 1) { %>
-      <li class="page-item me-auto"><a class="page-link" href="/?page=<%= currentPage - 1 %>">&larr; Previous</a></li>
-    <% } %>
-    <% if (currentPage < 2) { %>
-      <li class="page-item"><a class="page-link" href="/?page=<%= currentPage + 1 %>">Next &rarr;</a></li>
-    <% } %>
-  </ul>
-</nav>
+    <% }); %>
+  </div>
 
-<%-include ('partials/footer') -%>
+  <!-- Add your JavaScript scripts here, or link to a JS file -->
+</body>
+</html>

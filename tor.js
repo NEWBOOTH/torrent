@@ -9,12 +9,51 @@ app.use(express.static('public'))
 app.set('view engine', 'ejs');
 
 
+
+
 const itemsPerPage = 50; // Smaller, more reasonable value
 
-app.get('/tor', async (req, res) => {
+
+const apiUrl = `https://yts.mx/api/v2/list_movies.json?limit=${itemsPerPage}&page=1`;
+
+
+app.get('/', async (req, res) => {
+  try {
+    const itemsPerPage = 20; // Define itemsPerPage
+    const page = 1; // Set the page to 1. You can get it from the request using req.query if you want to allow users to pick the page number
+    const url =  `https://yts.mx/api/v2/list_movies.json?sort_by=popularity&limit=${itemsPerPage}&page=${page}`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // Ensure data.data exists and has movies
+    if (data.data && data.data.movies) {
+      const movies = data.data.movies;
+      res.render('home', { movies: movies }); // Render the 'home.ejs' template, passing the movies
+    } else {
+      console.log("No movies found in API response");
+      res.render('home', { movies: [] }); // Render with an empty array to avoid errors in the template
+    }
+
+  } catch (error) {
+    console.error("Error fetching or processing movie data:", error);
+    res.status(500).send("Error fetching movie data."); // Send an error response to the client
+  }
+});
+
+
+app.get('/movie', async (req, res) => {
     const page = parseInt(req.query.page) || 1; // Get page number from query parameters, default to 1
 
-    const url = `https://yts.mx/api/v2/list_movies.json?limit=${itemsPerPage}&page=${page}`; // Use page number
+    const url = `https://yts.mx/api/v2/list_movies.json?limit=${itemsPerPage}&page=${page}`;
+    const trendUrl = `https://yts.mx/api/v2/list_movies.json?sort_by=popularity&limit=${itemsPerPage}&page=${page}`;
 
     try {
         const response = await fetch(url, { method: 'GET' });
@@ -199,5 +238,5 @@ function escapeHtml(unsafe) {
 
 
   app.listen(2000, function(){
-    console.log('server running on port 2000')
+    console.log('server http://localhost:2000/tor')
   })

@@ -1,23 +1,30 @@
-<%-include ('partials/header') -%> 
+<%-include ('partials/header') -%>
 
 <% if (torrent) { %>
   <div class="card">
+    <img src="<%= torrent.medium_cover_image %>" class="card-img-top" alt="<%= movieTitle %> cover image">
     <div class="card-body">
-      <h5 class="card-title">Torrent Details for "<%= movieTitle %>"</h5> 
+      <h5 class="card-title">Torrent Details for "<%= movieTitle %>"</h5>
+
+      <% if (torrent.summary) { %>
+        <p class="card-text"><%= torrent.summary %></p>  <!-- Added summary display -->
+      <% } else if (torrent.description) { %>
+        <p class="card-text"><%= torrent.description %></p> <!-- Description as fallback -->
+      <% } else { %>
+        <p class="card-text">No summary available.</p> <!-- No summary -->
+      <% } %>
+
       <ul>
-        <img src="<%= torrent.background_image_original %>" alt="">
-          <li class="torrent-info">
-            
-            <p><b>Quality:</b> <%= torrent.quality %></p>
-            <p><b>Type:</b> <%= torrent.type %></p>
-            <p><b>Size:</b> <%= torrent.size %></p>
-            <p><b>Hash:</b> <%= torrent.hash %></p>
-            <a href="<%= torrent.url %>" target="_blank" class="btn btn-primary">Download</a>
-          </li>
+        <li class="torrent-info">
+          <p><b>Quality:</b> <%= torrent.quality %></p>
+          <p><b>Type:</b> <%= torrent.type %></p>
+          <p><b>Size:</b> <%= torrent.size %></p>
+          <p><b>Hash:</b> <%= torrent.hash %></p>
+          <a href="<%= torrent.url %>" target="_blank" class="btn btn-primary" aria-label="Download torrent for <%= movieTitle %>">Download</a>
+        </li>
       </ul>
+    </div>
   </div>
 <% } else { %>
   <p>No torrent information available.</p>
 <% } %>
-
-
