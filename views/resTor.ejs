@@ -1,0 +1,23 @@
+<%-include ('partials/header') -%> 
+
+<% if (torrent) { %>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Torrent Details for "<%= movieTitle %>"</h5> 
+      <ul>
+        <img src="<%= torrent.background_image_original %>" alt="">
+          <li class="torrent-info">
+            
+            <p><b>Quality:</b> <%= torrent.quality %></p>
+            <p><b>Type:</b> <%= torrent.type %></p>
+            <p><b>Size:</b> <%= torrent.size %></p>
+            <p><b>Hash:</b> <%= torrent.hash %></p>
+            <a href="<%= torrent.url %>" target="_blank" class="btn btn-primary">Download</a>
+          </li>
+      </ul>
+  </div>
+<% } else { %>
+  <p>No torrent information available.</p>
+<% } %>
+
+

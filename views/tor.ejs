@@ -1,0 +1,41 @@
+<%-include ('partials/header') -%> 
+<form id="searchForm" method="GET" action="/search">  <!-- Note: action="/search" -->
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" id="searchInput" name="query" placeholder="Search for movies...">
+    <button class="btn btn-outline-secondary" type="submit">Search</button>
+  </div>
+</form>
+
+<div class="row">
+    <% movies.forEach(movie => { %>
+      <div class="col-4 col-lg-2 mb-4">
+        <div class="card">
+          <img src="<%= movie.medium_cover_image %>" class="card-img-top" alt="<%= movie.title %> poster">
+          <div class="card-body">
+            <h5 class="card-title"><%= movie.title %></h5>
+           
+            <% if (movie.id) { %>
+              <a href="/tor/<%= movie.id %>" class="btn btn-primary">Details</a>  <!-- Correct link -->
+            <% } else { %>
+              <p class="text-muted">Details not available</p>  <!-- More accurate message -->
+            <% } %>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <% if (currentPage > 1) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+        </li>
+      <% } %>
+      <% if (currentPage < totalPages) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>

@@ -1,0 +1,21 @@
+<%- include('./partials/header', { trending: trending }) %>
+
+<div class="movie-container">
+  <% trending.forEach(trend => { %>
+    <div class="movie-card">
+      <a href="/<%= trend.mediaType %>/<%= trend.id %>?title=<%= encodeURIComponent(trend.title) %>" class="lu-one">
+        <div class="card">
+          <img class="card-img-top" src="https://image.tmdb.org/t/p/w200/<%= trend.poster_path || trend.background || '/placeholder.jpg' %>" alt="Poster for <%= trend.title %>">
+          <div class="lu-flags">
+            <i class="fi fi-us"></i>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title"><%= trend.title %></h3>
+          </div>
+        </div>
+      </a>
+    </div>
+  <% }); %>
+</div>
+
+

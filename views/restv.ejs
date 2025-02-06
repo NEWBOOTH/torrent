@@ -1,0 +1,22 @@
+
+<%-include ('partials/head') -%>
+  <h1 ><%= series.title %></h1>
+  <% if (series.background || series.poster_path) { %>
+    <img src="https://image.tmdb.org/t/p/w200/<%= series.background ? series.background : series.poster_path %>" alt="<%= series.title %> Poster" class="card m-3">
+  <% } %>
+  <p><%= series.release %></p>
+  <% if (episode) { %>
+    <h1>S<%= season.season %> - Ep<%= episode.episode %>: <%= episode.title %></h1>
+     
+    <p><h4>OVERVIEW</h4><%= episode.overview %></p>
+  <% } else { %>
+    <p>Select a season and episode to download.</p>
+  <% } %>
+  
+  <% if (episode.s3Key) { %>
+    <a href="/download/series/<%= series.id %>/<%= season.season %>/<%= episode.episode %>" class="btn btn-primary m-3 mt-5">Download</a>
+  <% } else { %>
+    <p>No File</p>
+  <% } %>
+  <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="280545"></script>
+  <%-include ('partials/footer') -%>

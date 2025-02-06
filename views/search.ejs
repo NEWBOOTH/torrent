@@ -1,0 +1,23 @@
+<%-include ('partials/header') -%>
+<h1>Search Results for "<%= searchTerm %>":</h1>
+
+<% if (movies && movies.length > 0) { %>
+  <div class="row">
+    <% movies.forEach(movie => { %>
+      <div class="col-md-4 col-sm-3 col-lg-2 mb-4">
+        <div class="card">
+          <img src="<%= movie.medium_cover_image %>" class="card-img-top" alt="<%= movie.title %> poster">
+          <div class="card-body">
+            <h5 class="card-title"><%= movie.title %></h5>
+            <p>Year <%= movie.year %></p>
+            
+            <a href="/tor/<%= movie.id %>" class="btn btn-primary">Details</a>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+  <% } %>
+
+
+  

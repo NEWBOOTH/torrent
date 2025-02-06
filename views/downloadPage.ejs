@@ -1,0 +1,65 @@
+
+
+ <%-include ('partials/head') -%>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-5 col-lg-4 col-sm-5 mb-4">
+      <div class="cad">
+        <h4 class="card-title"><%= movie.title %></h4>
+        <div class="card-body">
+          <% if (movie.background || movie.poster_path) { %>
+            <img src="https://image.tmdb.org/t/p/w200/<%= movie.background ? movie.background : movie.poster_path %>" class="card" alt="<%= movie.title %> Poster">
+          <% } else { %>
+            <p>No poster available.</p> 
+          <% } %>
+          
+          <p class="card-text">Release Date: <%= movie.release %></p>
+          <p class="card-text">Genre: <%= movie.genre_ids %></p>
+          <p>Language: <%= movie.original_language || 'N/A' %></p>
+
+           <script src="https://bid.onclckstr.com/vast?spot_id=6055284"></script>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-5 mb-5 pb-5">
+      <div class="crd mb-3">
+        <div class="card-body">
+          <h4>Overview</h4>
+          <p><%= movie.overview %></p>
+        </div>
+      </div>
+      <div class="cad mb-3">
+        <div class="card-body">
+          <h4>Cast</h4>
+          <% if (movie.cast && movie.cast.length > 0) { %>
+            <ul>
+              <% movie.cast.forEach(actor => { %>
+                <li class="list-group-item"><a href="https://google.com/search?q=<%= actor.name %>"><img src="https://image.tmdb.org/t/p/w200/<%= actor.profile_path %>" alt="" style="height: 40px;width: 40px; border-radius: 50%;"> <%= actor.name %> (<%= actor.role || 'N/A' %>)</a></li>
+              <% }); %>
+            </ul>
+          <% } else { %>
+            <p>Cast information not available.</p>
+          <% } %>
+        </div>
+      </div>
+        
+        <% if (movie.video_key) { %>
+          <h4>Trailer</h4>
+          <div class=" m-3"> 
+              <iframe class="embed-responsive-item card" src="https://www.youtube.com/embed/<%= movie.video_key %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>   
+          
+          <% } %>
+      <% if (movie.s3key) { %>
+      <a href="/download/<%= movie.id %>" class="btn btn-primary mt-3">Download</a>
+      <% } else { %>
+        <p>No File </p>
+      <% } %>
+    </div>
+  </div>
+</div>
+<script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="280567"></script>
+
+
+<%-include ('partials/footer') -%>

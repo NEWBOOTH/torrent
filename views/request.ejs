@@ -1,0 +1,54 @@
+<%-include ('partials/header') -%>
+<footer>
+    <div class="container">
+        <form class="movie-request-form" id="movieRequestForm" action="/">
+          <label for="movieTitle">Movie Title:</label><br>
+           <input type="text" id="movieTitle" name="movieTitle" placeholder="Enter movie title" required aria-label="Movie Title"><br>
+  
+          <label for="userEmail">Your Email:</label><br>
+          <input type="email" id="userEmail" name="userEmail" placeholder="Enter your email" required aria-label="Your Email"><br>
+  
+           <label for="movieNotes">Additional Notes (Optional):</label><br>
+           <textarea id="movieNotes" name="movieNotes" placeholder="Add any additional details here"></textarea><br>
+  
+           <button type="submit">Submit Request</button>
+          <p id="request-message" aria-live="polite" class="mt-2"></p>
+        </form>
+    </div>
+  </footer>
+  
+  <script>
+  const movieRequestForm = document.getElementById('movieRequestForm');
+  const requestMessage = document.getElementById('request-message');
+  
+   movieRequestForm.addEventListener('submit', async function(event) {
+       event.preventDefault();
+  
+     requestMessage.textContent = "Sending request...";
+  
+       const form = event.target;
+       const formData = new FormData(form);
+       const formDataObj = Object.fromEntries(formData);
+  
+       try {
+          const response = await fetch('/send-email', {
+              method: 'POST',
+               headers: {
+                   'Content-Type': 'application/json'
+              },
+               body: JSON.stringify(formDataObj)
+          });
+  
+          if (response.ok) {
+               requestMessage.textContent = "Thanks! Your request has been sent!";
+             movieRequestForm.reset();
+          } else {
+             const errorData = await response.json();
+               requestMessage.textContent = `There was a problem sending your request! Please try again later!`;
+               console.error("Error sending email:", response.status, errorData);
+           }
+       } catch (error) {
+           requestMessage.textContent = "There was an error! Please try again later!";
+          console.error("Error sending email:", error);
+       }
+   });
